@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Quick Count</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Panel Admin Quick Count</h1>
+    <table>
+      <tr>
+        <th>Pasangan</th>
+        <th>Suara</th>
+        <th>Aksi</th>
+      </tr>
+      <% candidates.forEach(c => { %>
+        <tr>
+          <form action="/update" method="POST">
+            <td><%= c.name %> - <%= c.partner %></td>
+            <td><input type="number" name="votes" value="<%= c.votes %>" /></td>
+            <td>
+              <input type="hidden" name="id" value="<%= c.id %>" />
+              <button type="submit">Update</button>
+            </td>
+          </form>
+        </tr>
+      <% }) %>
+    </table>
+
+    <h2>Tambah Paslon Baru</h2>
+    <form action="/add-candidate" method="POST" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Nama Ketua" required>
+      <input type="text" name="partner" placeholder="Nama Wakil" required>
+      <input type="file" name="photo" accept="image/*" required>
+      <button type="submit">Tambah Paslon</button>
+    </form>
+  </div>
+</body>
+</html>

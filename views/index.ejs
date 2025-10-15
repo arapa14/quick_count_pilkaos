@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quick Count Jakarta</title>
+  <meta http-equiv="refresh" content="2">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: transparent;
+      color: #fff;
+    }
+
+    .footer-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+      gap: 40px;
+      font-size: 18px;
+    }
+
+    .candidate {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .candidate img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    .candidate-name {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .candidate-votes {
+      font-size: 18px;
+      color: #00ff00;
+    }
+
+    .candidate-percent {
+      font-size: 18px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="footer-overlay">
+    <% candidates.forEach(c => { %>
+      <div class="candidate">
+        <% if(c.photo){ %>
+          <img src="<%= c.photo %>" alt="<%= c.name %>">
+        <% } %>
+        <div>
+          <div class="candidate-name"><%= c.name %></div>
+          <div class="candidate-votes">Suara: <%= c.votes %></div>
+          <div class="candidate-percent">
+            <%= totalVotes ? ((c.votes / totalVotes) * 100).toFixed(2) : 0 %>%
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</body>
+</html>
