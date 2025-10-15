@@ -63,9 +63,10 @@
 <body>
   <h1>Panel Admin Quick Count</h1>
 
+  <h2>Update Perolehan Suara</h2>
   <table>
     <tr>
-      <th>Nama Calon</th>
+      <th>Nama Kandidat</th>
       <th>Suara</th>
       <th>Aksi</th>
     </tr>
@@ -84,6 +85,13 @@
       </tr>
       <% }) %>
   </table>
+
+  <h2>Tambah Suara Tidak Sah</h2>
+  <form action="/update-invalid" method="POST">
+    <input type="number" name="invalidVotes" placeholder="Jumlah suara tidak sah" required>
+    <button type="submit">Update Data Tidak Sah</button>
+  </form>
+
 
   <h2>Tambah Calon Baru</h2>
   <form class="add-form" action="/add-candidate" method="POST" enctype="multipart/form-data">

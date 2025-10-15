@@ -33,6 +33,13 @@ db.run(`
   )
 `);
 
+// Tambahkan candidate khusus "Data Tidak Sah" di database (opsional)
+db.run(`
+  INSERT OR IGNORE INTO candidates (id, name, votes, photo)
+  VALUES (0, 'Data Tidak Sah', 0, null)
+`);
+
+
 // Multer setup
 const storage = multer.diskStorage({
   destination: (_, __, cb) => cb(null, "public/uploads"),
@@ -135,16 +142,34 @@ app.get("/admin", asyncHandler(async (req, res) => {
 }));
 
 // 🔄 Update suara
-app.post("/update", asyncHandler(async (req, res) => {
+// Update suara normal
+app.post("/update", (req, res) => {
   const { id, votes } = req.body;
-  db.run("UPDATE candidates SET votes = ? WHERE id = ?", [votes, id], (err) => {
-    if (err) {
-      console.error("Error updating votes:", err);
-      return res.status(500).send("Gagal memperbarui suara.");
-    }
-    res.redirect("/admin");
-  });
-}));
+  try {
+    db.run("UPDATE candidates SET votes=? WHERE id=?", [votes, id], (err) => {
+      if (err) throw err;
+      res.redirect("/admin");
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Terjadi kesalahan");
+  }
+});
+
+// Update Data Tidak Sah
+app.post("/update-invalid", (req, res) => {
+  const { invalidVotes } = req.body;
+  try {
+    db.run("UPDATE candidates SET votes=? WHERE id=0", [invalidVotes], (err) => {
+      if (err) throw err;
+      res.redirect("/admin");
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Terjadi kesalahan");
+  }
+});
+
 
 // Middleware global error handler
 app.use((err, req, res, next) => {
