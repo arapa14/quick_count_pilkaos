@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Quick Count Overlay (Mini)</title>
+  <title>Quick Count Overlay (Horizontal Box)</title>
   <meta http-equiv="refresh" content="60" />
   <style>
     :root {
@@ -28,12 +28,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: rgba(10, 10, 10, 0.4);
+      background: rgba(10, 10, 10, 0.35);
       backdrop-filter: blur(var(--blur));
-      border-radius: 12px;
-      padding: 8px 20px 12px;
+      border-radius: 14px;
+      padding: 10px 20px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
       animation: fadeIn 0.6s ease;
+      width: max-content;
     }
 
     @keyframes fadeIn {
@@ -51,22 +52,24 @@
     /* === Candidate Row === */
     .candidate-row {
       display: flex;
-      justify-content: center;
-      align-items: stretch;
-      gap: 16px;
-      width: 100%;
+      gap: 12px;
+      align-items: center;
     }
 
     .candidate {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
-      padding: 6px 10px;
+      gap: 8px;
       border-radius: 10px;
+      padding: 6px 10px;
       font-size: 12px;
-      min-width: 80px;
+      min-width: 100px;
       transition: all 0.3s ease;
+    }
+
+    .candidate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .candidate img {
@@ -75,27 +78,34 @@
       border-radius: 50%;
       border: 1px solid #fff;
       object-fit: cover;
-      margin-bottom: 3px;
+    }
+
+    .candidate-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      justify-content: center;
     }
 
     .candidate-name {
       font-weight: 600;
       font-size: 12px;
-      margin-bottom: 2px;
     }
 
     .candidate-percent {
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     /* === Warna Kandidat === */
     .c1 {
       background: linear-gradient(160deg, rgba(255, 70, 70, 0.85), rgba(180, 20, 20, 0.6));
+      color: #fff;
     }
 
     .c2 {
       background: linear-gradient(160deg, rgba(70, 130, 255, 0.85), rgba(20, 80, 200, 0.6));
+      color: #fff;
     }
 
     .c3 {
@@ -106,8 +116,8 @@
     /* === Data Progress === */
     .data-progress {
       width: 100%;
+      margin-top: 8px;
       text-align: center;
-      margin-top: 6px;
     }
 
     .progress-bar {
@@ -131,6 +141,22 @@
       font-size: 11px;
       opacity: 0.9;
     }
+
+    /* === Responsive === */
+    @media (max-width: 600px) {
+      .candidate img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .candidate-name {
+        font-size: 11px;
+      }
+
+      .candidate-percent {
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 
@@ -147,17 +173,18 @@
             <% if (c.photo) { %>
               <img src="<%= c.photo %>" alt="<%= c.name %>">
               <% } %>
-                <div class="candidate-name">
-                  <%= c.name %>
-                </div>
-                <div class="candidate-percent">
-                  <%= totalVotes ? ((c.votes / totalVotes) * 100).toFixed(1) : 0 %>%
+                <div class="candidate-info">
+                  <div class="candidate-name">
+                    <%= c.name %>
+                  </div>
+                  <div class="candidate-percent">
+                    <%= totalVotes ? ((c.votes / totalVotes) * 100).toFixed(1) : 0 %>%
+                  </div>
                 </div>
           </div>
           <% }) %>
       </div>
 
-      <!-- Progress Section -->
       <div class="data-progress">
         <div class="progress-bar">
           <div class="progress-fill" data-width="<%= pctDisplay %>"></div>
