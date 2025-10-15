@@ -1,40 +1,96 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <title>Admin Quick Count</title>
-  <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
-  <div class="admin-container">
-    <h1>Panel Admin Quick Count</h1>
-    <table>
-      <tr>
-        <th>Pasangan</th>
-        <th>Suara</th>
-        <th>Aksi</th>
-      </tr>
-      <% candidates.forEach(c => { %>
-        <tr>
-          <form action="/update" method="POST">
-            <td><%= c.name %> - <%= c.partner %></td>
-            <td><input type="number" name="votes" value="<%= c.votes %>" /></td>
-            <td>
-              <input type="hidden" name="id" value="<%= c.id %>" />
-              <button type="submit">Update</button>
-            </td>
-          </form>
-        </tr>
-      <% }) %>
-    </table>
 
-    <h2>Tambah Paslon Baru</h2>
-    <form action="/add-candidate" method="POST" enctype="multipart/form-data">
-      <input type="text" name="name" placeholder="Nama Ketua" required>
-      <input type="text" name="partner" placeholder="Nama Wakil" required>
-      <input type="file" name="photo" accept="image/*" required>
-      <button type="submit">Tambah Paslon</button>
-    </form>
-  </div>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Quick Count</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 40px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      text-align: center;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    form.add-form {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    form.add-form input,
+    form.add-form button {
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Panel Admin Quick Count</h1>
+
+  <table>
+    <tr>
+      <th>Nama Calon</th>
+      <th>Suara</th>
+      <th>Aksi</th>
+    </tr>
+    <% candidates.forEach(c=> { %>
+      <tr>
+        <form action="/update" method="POST">
+          <td>
+            <%= c.name %>
+          </td>
+          <td><input type="number" name="votes" value="<%= c.votes %>" /></td>
+          <td>
+            <input type="hidden" name="id" value="<%= c.id %>" />
+            <button type="submit">Update</button>
+          </td>
+        </form>
+      </tr>
+      <% }) %>
+  </table>
+
+  <h2>Tambah Calon Baru</h2>
+  <form class="add-form" action="/add-candidate" method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Nama Calon" required />
+    <input type="file" name="photo" accept="image/*" required />
+    <button type="submit">Tambah Calon</button>
+  </form>
 </body>
+
 </html>
