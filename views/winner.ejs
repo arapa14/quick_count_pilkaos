@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pengumuman Juara - Ketua OSIS</title>
+    <style>
+        :root {
+            --font: "Poppins", "Inter", sans-serif;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #111 30%, #000);
+            color: #fff;
+            font-family: var(--font);
+        }
+
+        .winner-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+            animation: fadeInDown 1.2s ease;
+        }
+
+        .winner-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.3), rgba(0, 0, 0, 0.8));
+            padding: 40px 60px;
+            border-radius: 24px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: popIn 1.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .winner-card img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+            margin-bottom: 24px;
+            object-fit: cover;
+        }
+
+        .winner-name {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .winner-percent {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .subtitle {
+            margin-top: 40px;
+            font-size: 22px;
+            opacity: 0.85;
+            animation: fadeInUp 2s ease;
+        }
+
+        /* === Confetti Animation === */
+        .confetti {
+            position: absolute;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            opacity: 0.9;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+            }
+
+            .winner-card {
+                padding: 20px 30px;
+            }
+
+            .winner-card img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .winner-name {
+                font-size: 28px;
+            }
+
+            .winner-percent {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <% const winner=candidates.sort((a,b)=>b.votes - a.votes)[0]; %>
+        <div class="winner-container">
+            <div class="title">🏆 Pengumuman Pemenang Ketua OSIS 🏆</div>
+
+            <div class="winner-card">
+                <img src="<%= winner.photo %>" alt="<%= winner.name %>">
+                <div class="winner-name">
+                    <%= winner.name %>
+                </div>
+                <div class="winner-percent">
+                    <%= ((winner.votes / totalVotes) * 100).toFixed(1) %>% Suara
+                </div>
+            </div>
+
+            <div class="subtitle">
+                Selamat kepada
+                <strong class="winner-highlight">
+                    <%= winner.name %>
+                </strong><br>
+                atas terpilihnya sebagai <br>
+                <span class="position-title">Ketua OSIS SMK Negeri 1 Jakarta</span><br>
+                <span class="period">Periode 2025 / 2026</span>
+            </div>
+        </div>
+
+        <script>
+            // === Efek confetti ===
+            const container = document.querySelector('.winner-container');
+            for (let i = 0; i < 80; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.background = `hsl(${Math.random() * 360}, 90%, 60%)`;
+                conf.style.animationDuration = 3 + Math.random() * 3 + 's';
+                conf.style.opacity = Math.random();
+                container.appendChild(conf);
+            }
+        </script>
+</body>
+
+</html>

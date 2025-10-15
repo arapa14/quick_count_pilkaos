@@ -128,6 +128,36 @@ app.get("/break", (req, res) => {
   });
 });
 
+app.get("/winner", (req, res) => {
+  db.all("SELECT * FROM candidates", (err, rows) => {
+    if (err) {
+      console.error("Error fetching data:", err);
+      return res.status(500).send("Terjadi kesalahan database");
+    }
+
+    // Hitung total suara sekarang
+    const totalVotes = rows.reduce((sum, r) => sum + (Number(r.votes) || 0), 0);
+
+    // Konfigurasi total maksimal suara
+    const totalMax = 1539;
+
+    // Hitung persentase data masuk, clamp antara 0 - 100, dan konversi jadi Number
+    let percentData = totalMax > 0 ? (totalVotes / totalMax) * 100 : 0;
+    if (!isFinite(percentData) || Number.isNaN(percentData)) percentData = 0;
+    percentData = Math.max(0, Math.min(100, percentData));
+    // Bulatkan 1 desimal
+    percentData = Math.round(percentData * 10) / 10;
+
+    // Kirim semua ke view
+    res.render("winner", {
+      candidates: rows,
+      totalVotes,
+      totalMax,
+      percentData, // pastikan tersedia dan bertipe Number
+    });
+  });
+});
+
 
 
 // 🧩 Halaman admin

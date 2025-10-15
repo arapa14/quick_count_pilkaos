@@ -168,7 +168,9 @@
 
     <div class="footer-overlay">
       <div class="candidate-row">
-        <% candidates.forEach((c, i)=> { %>
+        <% candidates.forEach((c, i)=> { 
+            if (c.id === 0) return;
+          %>
           <div class="candidate c<%= i + 1 %>">
             <% if (c.photo) { %>
               <img src="<%= c.photo %>" alt="<%= c.name %>">
